@@ -1,6 +1,6 @@
 redpanda:
   name: redpanda-cluster
-  clusterRefName: redpanda-cluster  # Default clusterRef for topics
+  # clusterRefName: redpanda-cluster  # Removed abstraction
   namespace: default
   labels: {}
   annotations: {}
@@ -78,11 +78,9 @@ redpandaTopics:
     - name: example-topic
       partitions: 3
       replicationFactor: 3
-      # clusterRef will default to redpanda.clusterRefName if not set
-      # To override, add:
-      # cluster:
-      #   clusterRef:
-      #     name: custom-cluster-name
+      cluster:
+        clusterRef:
+          name: redpanda-cluster
       config: {}
       extraSpec: {}
   # Add more topics as needed 
