@@ -39,6 +39,10 @@ redpanda:
       memory:
         container:
           max: 2Gi
+    podResources:
+      requests:
+        cpu: "100m"
+        memory: "1Gi"
     nodeSelector: {}
     tolerations: []
     affinity: {}

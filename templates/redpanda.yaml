@@ -53,6 +53,10 @@ spec:
       enabled: {{ .Values.redpanda.clusterSpec.podDisruptionBudget.enabled }}
       maxUnavailable: {{ .Values.redpanda.clusterSpec.podDisruptionBudget.maxUnavailable }}
     superusers: {{ toYaml .Values.redpanda.clusterSpec.superusers | nindent 6 }}
+    podResources:
+      requests:
+        cpu: {{ .Values.redpanda.clusterSpec.podResources.requests.cpu | quote }}
+        memory: {{ .Values.redpanda.clusterSpec.podResources.requests.memory | quote }}
     # Add more clusterSpec fields as needed
   security:
     tls:
