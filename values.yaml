@@ -1,13 +1,16 @@
 redpanda:
-  name: redpanda-poc
+  name: redpanda-cluster
+  clusterRefName: redpanda-cluster  # Default clusterRef for topics
   namespace: default
   labels: {}
   annotations: {}
   chartRef: {}
   clusterSpec:
     replicas: 3
-    image: "redpanda/redpanda:latest"
-    version: "v23.1.2"
+    image:
+      repository: redpanda/redpanda
+      tag: v23.1.2
+      pullPolicy: IfNotPresent
     listeners:
       kafka:
         port: 9092
@@ -71,6 +74,11 @@ redpandaTopics:
     - name: example-topic
       partitions: 3
       replicationFactor: 3
+      # clusterRef will default to redpanda.clusterRefName if not set
+      # To override, add:
+      # cluster:
+      #   clusterRef:
+      #     name: custom-cluster-name
       config: {}
       extraSpec: {}
   # Add more topics as needed 

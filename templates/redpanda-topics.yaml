@@ -1,6 +1,7 @@
 {{- if .Values.redpandaTopics.enabled }}
 {{- $chart_name := .Chart.Name }}
 {{- $chart_version := .Chart.Version | replace "+" "_" }}
+{{- $defaultClusterRef := .Values.redpanda.clusterRefName | default .Values.redpanda.name }}
 {{- range $i, $topic := .Values.redpandaTopics.topics }}
 ---
 apiVersion: cluster.redpanda.com/v1alpha1
@@ -12,6 +13,9 @@ metadata:
 spec:
   partitions: {{ $topic.partitions }}
   replicationFactor: {{ $topic.replicationFactor }}
+  cluster:
+    clusterRef:
+      name: {{ $topic.cluster.clusterRef.name | default $defaultClusterRef }}
   {{- if $topic.config }}
   config:
     {{- toYaml $topic.config | nindent 4 }}

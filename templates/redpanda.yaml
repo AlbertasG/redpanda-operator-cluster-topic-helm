@@ -13,7 +13,10 @@ spec:
   chartRef: {{ toYaml .Values.redpanda.chartRef | nindent 4 }}
   clusterSpec:
     replicas: {{ .Values.redpanda.clusterSpec.replicas }}
-    image: {{ .Values.redpanda.clusterSpec.image | quote }}
+    image:
+      repository: {{ .Values.redpanda.clusterSpec.image.repository | quote }}
+      tag: {{ .Values.redpanda.clusterSpec.image.tag | quote }}
+      pullPolicy: {{ .Values.redpanda.clusterSpec.image.pullPolicy | quote }}
     version: {{ .Values.redpanda.clusterSpec.version | quote }}
     listeners:
       kafka:
