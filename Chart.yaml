@@ -2,11 +2,11 @@ apiVersion: v2
 name: redpanda-operator-cluster-topic-helm
 description: A Helm chart for managing RedPanda Cluster & Topics 
 type: application
-version: 0.0.9
+version: 0.0.10
 appVersion: "1.0.0"
 maintainers:
-  - name: Albertas Grinkevicius
-    email: albertasg@gmail.com
+  - name: AlbertasG
+    email: grinekvicius.albertas@gmail.com
 keywords:
   - redpanda
   - gitops

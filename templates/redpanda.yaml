@@ -86,10 +86,6 @@ spec:
     {{- if .Values.redpanda.clusterSpec.superusers }}
     superusers: {{ toYaml .Values.redpanda.clusterSpec.superusers | nindent 6 }}
     {{- end }}
-    podResources:
-      requests:
-        cpu: {{ .Values.redpanda.clusterSpec.podResources.requests.cpu | quote }}
-        memory: {{ .Values.redpanda.clusterSpec.podResources.requests.memory | quote }}
     # Add more clusterSpec fields as needed
   {{- if .Values.redpanda.security }}
   security:
