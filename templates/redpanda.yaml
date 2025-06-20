@@ -12,6 +12,8 @@ metadata:
 spec:
   chartRef: {{ toYaml .Values.redpanda.chartRef | nindent 4 }}
   clusterSpec:
+    statefulset:
+      replicas: {{ .Values.redpanda.clusterSpec.statefulset.replicas | default 1 }}
     image:
       repository: {{ .Values.redpanda.clusterSpec.image.repository | quote }}
       tag: {{ .Values.redpanda.clusterSpec.image.tag | quote }}
