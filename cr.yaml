@@ -1,0 +1,6 @@
+owner: albertasg
+git-repo: redpanda-operator-cluster-topic-helm
+package-path: .cr-release-packages
+index-path: index.yaml
+pages-branch: gh-pages
+charts-repo: https://albertasg.github.io/redpanda-operator-cluster-topic-helm

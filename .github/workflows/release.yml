@@ -1,0 +1,65 @@
+name: Release Charts
+
+on:
+  push:
+    branches:
+      - initial-develop
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Install Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: v3.12.0
+
+      - name: Install chart-releaser
+        run: |
+          curl -sSLo cr.tar.gz "https://github.com/helm/chart-releaser/releases/download/v1.6.0/chart-releaser_1.6.0_linux_amd64.tar.gz"
+          tar -xzf cr.tar.gz
+          sudo mv cr /usr/local/bin/cr
+          rm cr.tar.gz
+
+      - name: Package Helm chart
+        run: |
+          helm package .
+          mkdir -p .cr-release-packages
+          mv *.tgz .cr-release-packages/
+
+      - name: Create Release
+        run: |
+          cr upload \
+            --owner ${{ github.repository_owner }} \
+            --git-repo ${{ github.event.repository.name }} \
+            --token ${{ secrets.GITHUB_TOKEN }} \
+            --package-path .cr-release-packages \
+            --make-release-latest
+
+      - name: Update Index
+        run: |
+          # Create index.yaml if it doesn't exist
+          touch index.yaml
+          
+          # Update the index
+          cr index \
+            --owner ${{ github.repository_owner }} \
+            --git-repo ${{ github.event.repository.name }} \
+            --token ${{ secrets.GITHUB_TOKEN }} \
+            --package-path .cr-release-packages \
+            --pages-branch gh-pages \
+            --push \
+            --index-path index.yaml 

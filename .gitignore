@@ -1,0 +1,10 @@
+/charts*/charts
+.idea
+.vscode
+.project
+.settings
+
+**/.DS_store
+.charts
+Chart.lock
+values-test.yaml

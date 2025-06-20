@@ -1,0 +1,24 @@
+apiVersion: v2
+name: argocd-applicationset-helm
+description: A Helm chart for managing ArgoCD ApplicationSets
+type: application
+version: 0.0.1
+appVersion: "1.0.0"
+maintainers:
+  - name: Albertas Grinkevicius
+    email: albertasg@gmail.com
+keywords:
+  - argocd
+  - applicationset
+  - gitops
+home: https://github.com/albertasg/redpanda-operator-cluster-topic-helm
+sources:
+  - https://github.com/albertasg/redpanda-operator-cluster-topic-helm
+annotations:
+  artifacthub.io/changes: |
+    - Initial release
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/links: |
+    - name: GitHub
+      url: https://github.com/albertasg/redpanda-operator-cluster-topic-helm
+    
