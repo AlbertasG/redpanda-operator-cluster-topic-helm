@@ -6,7 +6,6 @@ redpanda:
   annotations: {}
   chartRef: {}
   clusterSpec:
-    replicas: 3
     image:
       repository: redpanda/redpanda
       tag: v23.1.2

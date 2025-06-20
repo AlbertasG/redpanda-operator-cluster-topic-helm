@@ -2,7 +2,7 @@ apiVersion: v2
 name: redpanda-operator-cluster-topic-helm
 description: A Helm chart for managing RedPanda Cluster & Topics 
 type: application
-version: 0.0.10
+version: 0.0.11
 appVersion: "1.0.0"
 maintainers:
   - name: AlbertasG
