@@ -10,6 +10,32 @@ entries:
           url: https://github.com/albertasg/redpanda-operator-cluster-topic-helm
     apiVersion: v2
     appVersion: 1.0.0
+    created: "2025-06-20T10:16:10.388387053Z"
+    description: A Helm chart for managing RedPanda Cluster & Topics
+    digest: 202cb0c78cc04aa80ffb5ca0b5d80cd430ba24a4447f105298c5bfb73ec61fcd
+    home: https://github.com/albertasg/redpanda-operator-cluster-topic-helm
+    keywords:
+    - redpanda
+    - gitops
+    maintainers:
+    - email: albertasg@gmail.com
+      name: Albertas Grinkevicius
+    name: redpanda-operator-cluster-topic-helm
+    sources:
+    - https://github.com/albertasg/redpanda-operator-cluster-topic-helm
+    type: application
+    urls:
+    - https://github.com/AlbertasG/redpanda-operator-cluster-topic-helm/releases/download/redpanda-operator-cluster-topic-helm-0.0.7/redpanda-operator-cluster-topic-helm-0.0.7.tgz
+    version: 0.0.7
+  - annotations:
+      artifacthub.io/changes: |
+        - Initial release
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/links: |
+        - name: GitHub
+          url: https://github.com/albertasg/redpanda-operator-cluster-topic-helm
+    apiVersion: v2
+    appVersion: 1.0.0
     created: "2025-06-20T10:09:12.758316255Z"
     description: A Helm chart for managing RedPanda Cluster & Topics
     digest: ffd7009f7b6ee2e93c0ac95722af7d64b4dff564db8b3903e2472d138ec467f7
@@ -157,4 +183,4 @@ entries:
     urls:
     - https://github.com/AlbertasG/redpanda-operator-cluster-topic-helm/releases/download/redpanda-operator-cluster-topic-helm-0.0.1/redpanda-operator-cluster-topic-helm-0.0.1.tgz
     version: 0.0.1
-generated: "2025-06-20T10:09:12.758342875Z"
+generated: "2025-06-20T10:16:10.388424353Z"
