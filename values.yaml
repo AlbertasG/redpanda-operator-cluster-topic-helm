@@ -20,10 +20,6 @@ redpanda:
         port: 9644
         tls:
           enabled: false
-      pandaproxy:
-        port: 8082
-        tls:
-          enabled: false
       schemaRegistry:
         port: 8081
         tls:
@@ -34,41 +30,15 @@ redpanda:
         size: 10Gi
         storageClass: ebs-gp3
     resources:
-      cpu:
-        cores: 1
-      memory:
-        container:
-          max: 2Gi
-    podResources:
       requests:
         cpu: "100m"
-        memory: "1Gi"
+        memory: 512Mi
+      limits:
+        cpu: "100m"
+        memory: 512Mi
     nodeSelector: {}
     tolerations: []
     affinity: {}
-    podDisruptionBudget:
-      enabled: true
-      maxUnavailable: 1
-    superusers: [] # List of superuser names
-    # Add more clusterSpec fields as needed
-  security:
-    tls:
-      enabled: false
-      certManager:
-        enabled: false
-    authentication:
-      sasl:
-        enabled: false
-        superusers: []
-  monitoring:
-    enabled: false
-  logging:
-    level: info
-  usageStats:
-    enabled: true
-    organization: ""
-    clusterId: ""
-  extraSpec: {}
 # Add more fields as needed for extensibility 
 
 # Topics management

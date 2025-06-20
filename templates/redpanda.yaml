@@ -41,11 +41,24 @@ spec:
         size: {{ .Values.redpanda.clusterSpec.storage.persistentVolume.size }}
         storageClass: {{ .Values.redpanda.clusterSpec.storage.persistentVolume.storageClass }}
     resources:
-      cpu:
-        cores: {{ .Values.redpanda.clusterSpec.resources.cpu.cores }}
-      memory:
-        container:
-          max: {{ .Values.redpanda.clusterSpec.resources.memory.container.max }}
+      {{- if .Values.redpanda.clusterSpec.resources.requests }}
+      requests:
+        {{- if .Values.redpanda.clusterSpec.resources.requests.cpu }}
+        cpu: {{ .Values.redpanda.clusterSpec.resources.requests.cpu | quote }}
+        {{- end }}
+        {{- if .Values.redpanda.clusterSpec.resources.requests.memory }}
+        memory: {{ .Values.redpanda.clusterSpec.resources.requests.memory | quote }}
+        {{- end }}
+      {{- end }}
+      {{- if .Values.redpanda.clusterSpec.resources.limits }}
+      limits:
+        {{- if .Values.redpanda.clusterSpec.resources.limits.cpu }}
+        cpu: {{ .Values.redpanda.clusterSpec.resources.limits.cpu | quote }}
+        {{- end }}
+        {{- if .Values.redpanda.clusterSpec.resources.limits.memory }}
+        memory: {{ .Values.redpanda.clusterSpec.resources.limits.memory | quote }}
+        {{- end }}
+      {{- end }}
     nodeSelector: {{ toYaml .Values.redpanda.clusterSpec.nodeSelector | nindent 6 }}
     tolerations: {{ toYaml .Values.redpanda.clusterSpec.tolerations | nindent 6 }}
     affinity: {{ toYaml .Values.redpanda.clusterSpec.affinity | nindent 6 }}
