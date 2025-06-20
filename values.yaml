@@ -1,0 +1,76 @@
+redpanda:
+  name: redpanda-poc
+  namespace: default
+  labels: {}
+  annotations: {}
+  chartRef: {}
+  clusterSpec:
+    replicas: 3
+    image: "redpanda/redpanda:latest"
+    version: "v23.1.2"
+    listeners:
+      kafka:
+        port: 9092
+        tls:
+          enabled: false
+      admin:
+        port: 9644
+        tls:
+          enabled: false
+      pandaproxy:
+        port: 8082
+        tls:
+          enabled: false
+      schemaRegistry:
+        port: 8081
+        tls:
+          enabled: false
+    storage:
+      persistentVolume:
+        enabled: true
+        size: 10Gi
+        storageClass: ebs-gp3
+    resources:
+      cpu:
+        cores: 1
+      memory:
+        container:
+          max: 2Gi
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}
+    podDisruptionBudget:
+      enabled: true
+      maxUnavailable: 1
+    superusers: [] # List of superuser names
+    # Add more clusterSpec fields as needed
+  security:
+    tls:
+      enabled: false
+      certManager:
+        enabled: false
+    authentication:
+      sasl:
+        enabled: false
+        superusers: []
+  monitoring:
+    enabled: false
+  logging:
+    level: info
+  usageStats:
+    enabled: true
+    organization: ""
+    clusterId: ""
+  extraSpec: {}
+# Add more fields as needed for extensibility 
+
+# Topics management
+redpandaTopics:
+  enabled: true
+  topics:
+    - name: example-topic
+      partitions: 3
+      replicationFactor: 3
+      config: {}
+      extraSpec: {}
+  # Add more topics as needed 

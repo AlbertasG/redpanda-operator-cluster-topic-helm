@@ -1,0 +1,24 @@
+{{- if .Values.redpandaTopics.enabled }}
+{{- $chart_name := .Chart.Name }}
+{{- $chart_version := .Chart.Version | replace "+" "_" }}
+{{- range $i, $topic := .Values.redpandaTopics.topics }}
+---
+apiVersion: cluster.redpanda.com/v1alpha1
+kind: Topic
+metadata:
+  name: {{ $topic.name }}
+  labels:
+    chart: "{{ $chart_name }}-{{ $chart_version }}"
+spec:
+  partitions: {{ $topic.partitions }}
+  replicationFactor: {{ $topic.replicationFactor }}
+  {{- if $topic.config }}
+  config:
+    {{- toYaml $topic.config | nindent 4 }}
+  {{- end }}
+  {{- with $topic.extraSpec }}
+  # Extra advanced spec fields
+  {{ toYaml . | nindent 2 }}
+  {{- end }}
+{{- end }}
+{{- end }} 

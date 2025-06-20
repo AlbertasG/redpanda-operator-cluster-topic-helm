@@ -3,6 +3,7 @@
 .vscode
 .project
 .settings
+/redpanda-operator
 
 **/.DS_store
 .charts

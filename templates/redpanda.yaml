@@ -1,0 +1,72 @@
+apiVersion: cluster.redpanda.com/v1alpha2
+kind: Redpanda
+metadata:
+  name: {{ .Values.redpanda.name }}
+  namespace: {{ .Values.redpanda.namespace }}
+  labels:
+    {{- toYaml .Values.redpanda.labels | nindent 4 }}
+  annotations:
+    {{- toYaml .Values.redpanda.annotations | nindent 4 }}
+spec:
+  chartRef: {{ toYaml .Values.redpanda.chartRef | nindent 4 }}
+  clusterSpec:
+    replicas: {{ .Values.redpanda.clusterSpec.replicas }}
+    image: {{ .Values.redpanda.clusterSpec.image | quote }}
+    version: {{ .Values.redpanda.clusterSpec.version | quote }}
+    listeners:
+      kafka:
+        port: {{ .Values.redpanda.clusterSpec.listeners.kafka.port }}
+        tls:
+          enabled: {{ .Values.redpanda.clusterSpec.listeners.kafka.tls.enabled }}
+      admin:
+        port: {{ .Values.redpanda.clusterSpec.listeners.admin.port }}
+        tls:
+          enabled: {{ .Values.redpanda.clusterSpec.listeners.admin.tls.enabled }}
+      pandaproxy:
+        port: {{ .Values.redpanda.clusterSpec.listeners.pandaproxy.port }}
+        tls:
+          enabled: {{ .Values.redpanda.clusterSpec.listeners.pandaproxy.tls.enabled }}
+      schemaRegistry:
+        port: {{ .Values.redpanda.clusterSpec.listeners.schemaRegistry.port }}
+        tls:
+          enabled: {{ .Values.redpanda.clusterSpec.listeners.schemaRegistry.tls.enabled }}
+    storage:
+      persistentVolume:
+        enabled: {{ .Values.redpanda.clusterSpec.storage.persistentVolume.enabled }}
+        size: {{ .Values.redpanda.clusterSpec.storage.persistentVolume.size }}
+        storageClass: {{ .Values.redpanda.clusterSpec.storage.persistentVolume.storageClass }}
+    resources:
+      cpu:
+        cores: {{ .Values.redpanda.clusterSpec.resources.cpu.cores }}
+      memory:
+        container:
+          max: {{ .Values.redpanda.clusterSpec.resources.memory.container.max }}
+    nodeSelector: {{ toYaml .Values.redpanda.clusterSpec.nodeSelector | nindent 6 }}
+    tolerations: {{ toYaml .Values.redpanda.clusterSpec.tolerations | nindent 6 }}
+    affinity: {{ toYaml .Values.redpanda.clusterSpec.affinity | nindent 6 }}
+    podDisruptionBudget:
+      enabled: {{ .Values.redpanda.clusterSpec.podDisruptionBudget.enabled }}
+      maxUnavailable: {{ .Values.redpanda.clusterSpec.podDisruptionBudget.maxUnavailable }}
+    superusers: {{ toYaml .Values.redpanda.clusterSpec.superusers | nindent 6 }}
+    # Add more clusterSpec fields as needed
+  security:
+    tls:
+      enabled: {{ .Values.redpanda.security.tls.enabled }}
+      certManager:
+        enabled: {{ .Values.redpanda.security.tls.certManager.enabled }}
+    authentication:
+      sasl:
+        enabled: {{ .Values.redpanda.security.authentication.sasl.enabled }}
+        superusers: {{ toYaml .Values.redpanda.security.authentication.sasl.superusers | nindent 10 }}
+  monitoring:
+    enabled: {{ .Values.redpanda.monitoring.enabled }}
+  logging:
+    level: {{ .Values.redpanda.logging.level | quote }}
+  usageStats:
+    enabled: {{ .Values.redpanda.usageStats.enabled }}
+    organization: {{ .Values.redpanda.usageStats.organization | quote }}
+    clusterId: {{ .Values.redpanda.usageStats.clusterId | quote }}
+  {{- with .Values.redpanda.extraSpec }}
+  # Extra advanced spec fields
+  {{ toYaml . | nindent 2 }}
+  {{- end }} 
