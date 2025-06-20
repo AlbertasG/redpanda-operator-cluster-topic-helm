@@ -15,7 +15,7 @@ spec:
   replicationFactor: {{ $topic.replicationFactor }}
   cluster:
     clusterRef:
-      name: {{ $topic.cluster.clusterRef.name | default $defaultClusterRef }}
+      name: {{- if and $topic.cluster $topic.cluster.clusterRef $topic.cluster.clusterRef.name }}{{ $topic.cluster.clusterRef.name }}{{- else }}{{ $defaultClusterRef }}{{- end }}
   {{- if $topic.config }}
   config:
     {{- toYaml $topic.config | nindent 4 }}
