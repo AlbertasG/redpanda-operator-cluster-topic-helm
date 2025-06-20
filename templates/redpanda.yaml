@@ -19,22 +19,38 @@ spec:
       pullPolicy: {{ .Values.redpanda.clusterSpec.image.pullPolicy | quote }}
     version: {{ .Values.redpanda.clusterSpec.version | quote }}
     listeners:
+      {{- if .Values.redpanda.clusterSpec.listeners.kafka }}
       kafka:
         port: {{ .Values.redpanda.clusterSpec.listeners.kafka.port }}
+        {{- if .Values.redpanda.clusterSpec.listeners.kafka.tls }}
         tls:
           enabled: {{ .Values.redpanda.clusterSpec.listeners.kafka.tls.enabled }}
+        {{- end }}
+      {{- end }}
+      {{- if .Values.redpanda.clusterSpec.listeners.admin }}
       admin:
         port: {{ .Values.redpanda.clusterSpec.listeners.admin.port }}
+        {{- if .Values.redpanda.clusterSpec.listeners.admin.tls }}
         tls:
           enabled: {{ .Values.redpanda.clusterSpec.listeners.admin.tls.enabled }}
+        {{- end }}
+      {{- end }}
+      {{- if .Values.redpanda.clusterSpec.listeners.pandaproxy }}
       pandaproxy:
         port: {{ .Values.redpanda.clusterSpec.listeners.pandaproxy.port }}
+        {{- if .Values.redpanda.clusterSpec.listeners.pandaproxy.tls }}
         tls:
           enabled: {{ .Values.redpanda.clusterSpec.listeners.pandaproxy.tls.enabled }}
+        {{- end }}
+      {{- end }}
+      {{- if .Values.redpanda.clusterSpec.listeners.schemaRegistry }}
       schemaRegistry:
         port: {{ .Values.redpanda.clusterSpec.listeners.schemaRegistry.port }}
+        {{- if .Values.redpanda.clusterSpec.listeners.schemaRegistry.tls }}
         tls:
           enabled: {{ .Values.redpanda.clusterSpec.listeners.schemaRegistry.tls.enabled }}
+        {{- end }}
+      {{- end }}
     storage:
       persistentVolume:
         enabled: {{ .Values.redpanda.clusterSpec.storage.persistentVolume.enabled }}
@@ -62,32 +78,52 @@ spec:
     nodeSelector: {{ toYaml .Values.redpanda.clusterSpec.nodeSelector | nindent 6 }}
     tolerations: {{ toYaml .Values.redpanda.clusterSpec.tolerations | nindent 6 }}
     affinity: {{ toYaml .Values.redpanda.clusterSpec.affinity | nindent 6 }}
+    {{- if .Values.redpanda.clusterSpec.podDisruptionBudget }}
     podDisruptionBudget:
       enabled: {{ .Values.redpanda.clusterSpec.podDisruptionBudget.enabled }}
       maxUnavailable: {{ .Values.redpanda.clusterSpec.podDisruptionBudget.maxUnavailable }}
+    {{- end }}
+    {{- if .Values.redpanda.clusterSpec.superusers }}
     superusers: {{ toYaml .Values.redpanda.clusterSpec.superusers | nindent 6 }}
+    {{- end }}
     podResources:
       requests:
         cpu: {{ .Values.redpanda.clusterSpec.podResources.requests.cpu | quote }}
         memory: {{ .Values.redpanda.clusterSpec.podResources.requests.memory | quote }}
     # Add more clusterSpec fields as needed
+  {{- if .Values.redpanda.security }}
   security:
+    {{- if .Values.redpanda.security.tls }}
     tls:
       enabled: {{ .Values.redpanda.security.tls.enabled }}
+      {{- if .Values.redpanda.security.tls.certManager }}
       certManager:
         enabled: {{ .Values.redpanda.security.tls.certManager.enabled }}
+      {{- end }}
+    {{- end }}
+    {{- if .Values.redpanda.security.authentication }}
     authentication:
+      {{- if .Values.redpanda.security.authentication.sasl }}
       sasl:
         enabled: {{ .Values.redpanda.security.authentication.sasl.enabled }}
         superusers: {{ toYaml .Values.redpanda.security.authentication.sasl.superusers | nindent 10 }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+  {{- if .Values.redpanda.monitoring }}
   monitoring:
     enabled: {{ .Values.redpanda.monitoring.enabled }}
+  {{- end }}
+  {{- if .Values.redpanda.logging }}
   logging:
     level: {{ .Values.redpanda.logging.level | quote }}
+  {{- end }}
+  {{- if .Values.redpanda.usageStats }}
   usageStats:
     enabled: {{ .Values.redpanda.usageStats.enabled }}
     organization: {{ .Values.redpanda.usageStats.organization | quote }}
     clusterId: {{ .Values.redpanda.usageStats.clusterId | quote }}
+  {{- end }}
   {{- with .Values.redpanda.extraSpec }}
   # Extra advanced spec fields
   {{ toYaml . | nindent 2 }}
