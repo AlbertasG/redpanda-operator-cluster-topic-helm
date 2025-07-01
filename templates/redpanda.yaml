@@ -87,6 +87,10 @@ spec:
     {{- if .Values.redpanda.clusterSpec.superusers }}
     superusers: {{ toYaml .Values.redpanda.clusterSpec.superusers | nindent 6 }}
     {{- end }}
+    {{- if .Values.redpanda.monitoring }}
+    monitoring:
+        enabled: {{ .Values.redpanda.monitoring.enabled }}
+    {{- end }}
     # Add more clusterSpec fields as needed
   {{- if .Values.redpanda.security }}
   security:
@@ -106,10 +110,6 @@ spec:
         superusers: {{ toYaml .Values.redpanda.security.authentication.sasl.superusers | nindent 10 }}
       {{- end }}
     {{- end }}
-  {{- end }}
-  {{- if .Values.redpanda.monitoring }}
-  monitoring:
-    enabled: {{ .Values.redpanda.monitoring.enabled }}
   {{- end }}
   {{- if .Values.redpanda.logging }}
   logging:
